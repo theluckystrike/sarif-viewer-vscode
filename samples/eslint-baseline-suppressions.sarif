@@ -1,0 +1,217 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ESLint",
+          "informationUri": "https://eslint.org",
+          "version": "8.57.0",
+          "rules": [
+            {
+              "id": "no-unused-vars",
+              "shortDescription": {
+                "text": "Disallow unused variables"
+              },
+              "helpUri": "https://eslint.org/docs/latest/rules/no-unused-vars",
+              "properties": {
+                "category": "Variables"
+              }
+            },
+            {
+              "id": "no-var",
+              "shortDescription": {
+                "text": "Require let or const instead of var"
+              },
+              "helpUri": "https://eslint.org/docs/latest/rules/no-var"
+            },
+            {
+              "id": "eqeqeq",
+              "shortDescription": {
+                "text": "Require the use of === and !=="
+              },
+              "helpUri": "https://eslint.org/docs/latest/rules/eqeqeq"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "no-unused-vars",
+          "ruleIndex": 0,
+          "level": "warning",
+          "baselineState": "new",
+          "message": {
+            "text": "'unused' is defined but never used."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/utils/sanitize.js"
+                },
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 10,
+                  "endColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "no-var",
+          "ruleIndex": 1,
+          "level": "error",
+          "baselineState": "new",
+          "message": {
+            "text": "Unexpected var, use let or const instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/utils/sanitize.js"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 3,
+                  "endColumn": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "no-unused-vars",
+          "ruleIndex": 0,
+          "level": "warning",
+          "baselineState": "unchanged",
+          "message": {
+            "text": "'b' is assigned a value but never used."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/utils/sanitize.js"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 7,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "eqeqeq",
+          "ruleIndex": 2,
+          "level": "warning",
+          "baselineState": "updated",
+          "message": {
+            "text": "Expected '===' and instead saw '=='."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/server.js"
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 3,
+                  "endColumn": 30
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "eqeqeq",
+          "ruleIndex": 2,
+          "level": "warning",
+          "baselineState": "absent",
+          "message": {
+            "text": "Expected '!==' and instead saw '!='."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/db.js"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 3,
+                  "endColumn": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "no-var",
+          "ruleIndex": 1,
+          "level": "error",
+          "baselineState": "unchanged",
+          "message": {
+            "text": "Unexpected var, use let or const instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/server.js"
+                },
+                "region": {
+                  "startLine": 2,
+                  "startColumn": 1,
+                  "endColumn": 6
+                }
+              }
+            }
+          ],
+          "suppressions": [
+            {
+              "kind": "inSource",
+              "status": "accepted",
+              "justification": "eslint-disable-line: legacy file, tracked in issue 42"
+            }
+          ]
+        },
+        {
+          "ruleId": "no-unused-vars",
+          "ruleIndex": 0,
+          "level": "warning",
+          "baselineState": "new",
+          "message": {
+            "text": "'rows' is assigned a value but never used."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/server.js"
+                },
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 9,
+                  "endColumn": 13
+                }
+              }
+            }
+          ],
+          "suppressions": [
+            {
+              "kind": "external",
+              "status": "underReview",
+              "justification": "Waiting for review"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

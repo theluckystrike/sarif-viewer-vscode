@@ -1,0 +1,249 @@
+{
+  "name": "zovo-sarif-viewer",
+  "displayName": "SARIF Viewer (CodeQL, Semgrep & Static Analysis Results)",
+  "description": "Free SARIF viewer for CodeQL, Semgrep, ESLint, Bandit, Trivy and other static analysis results. Filter by level, baseline and suppression, step through code flows, open each result at its line. No sign-in, no network, works offline.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1E2430",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Visualization",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "sarif",
+    "sarif viewer",
+    "codeql",
+    "semgrep",
+    "eslint sarif",
+    "bandit",
+    "trivy",
+    "checkov",
+    "gitleaks",
+    "static analysis",
+    "security scan",
+    "code scanning",
+    "sast",
+    "codeql results"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onCustomEditor:sarifViewer.viewer"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "sarifViewer.viewer",
+        "displayName": "SARIF Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.sarif"
+          },
+          {
+            "filenamePattern": "*.sarif.json"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "sarifViewer.open",
+        "title": "Open with SARIF Viewer",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.compare",
+        "title": "Compare Two SARIF Logs",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.toggleProblems",
+        "title": "Show or Hide Results in the Problems Panel",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.forgetPathMappings",
+        "title": "Forget Remembered Path Mappings",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.openSample",
+        "title": "Open a Sample SARIF Log",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.openWalkthrough",
+        "title": "Get Started",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.supportDeveloper",
+        "title": "Support the developer",
+        "category": "SARIF"
+      },
+      {
+        "command": "sarifViewer.moreViewers",
+        "title": "More free viewers",
+        "category": "SARIF"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "sarifViewer.open",
+          "when": "resourceFilename =~ /\\.sarif(\\.json)?$/i",
+          "group": "navigation@9"
+        },
+        {
+          "command": "sarifViewer.compare",
+          "when": "listMultiSelection && resourceFilename =~ /\\.sarif(\\.json)?$/i",
+          "group": "3_compare@9"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "sarifViewer.toggleProblems",
+          "when": "activeCustomEditorId == sarifViewer.viewer"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SARIF Viewer",
+      "properties": {
+        "sarifViewer.groupBy": {
+          "type": "string",
+          "enum": [
+            "rule",
+            "file",
+            "level",
+            "tool",
+            "baseline",
+            "none"
+          ],
+          "default": "rule",
+          "description": "How results are grouped when you open a log. You can change it in the toolbar."
+        },
+        "sarifViewer.showSuppressed": {
+          "type": "string",
+          "enum": [
+            "hide",
+            "show",
+            "only"
+          ],
+          "enumDescriptions": [
+            "Hide suppressed results.",
+            "Show them, marked as suppressed.",
+            "Show only suppressed results."
+          ],
+          "default": "hide",
+          "description": "Suppressed results (SARIF suppressions with status accepted) when you open a log. Results whose suppression is under review or rejected always show."
+        },
+        "sarifViewer.pathMappings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "markdownDescription": "Map paths in SARIF logs to local folders, for example `{ \"/home/runner/work/app/app\": \"/Users/me/app\" }`. The viewer also finds most CI paths by itself and remembers the match for this workspace. Use `%SRCROOT%` as a key to set a uriBaseId."
+        },
+        "sarifViewer.openBeside": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the file of a result in the editor group beside the viewer, so the table stays visible."
+        },
+        "sarifViewer.problemsLimit": {
+          "type": "number",
+          "default": 5000,
+          "minimum": 100,
+          "maximum": 100000,
+          "description": "The most results \"Show in Problems\" adds to the Problems panel."
+        },
+        "sarifViewer.maxFileMB": {
+          "type": "number",
+          "default": 300,
+          "minimum": 1,
+          "maximum": 500,
+          "description": "Logs larger than this ask before they are parsed. Parsing runs in a background thread. Logs over 500 MB cannot be opened."
+        },
+        "sarifViewer.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for a Marketplace rating after you have used SARIF Viewer on a few days. You can answer \"Later\" or \"No thanks\". Nothing is sent anywhere."
+        },
+        "sarifViewer.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Sponsor and More free viewers links at the bottom of the viewer. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "sarifViewer.start",
+        "title": "Get started with SARIF Viewer",
+        "description": "Read CodeQL, Semgrep and other static analysis results in VS Code. No account, no network.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a SARIF log",
+            "description": "Open any .sarif or .sarif.json file. It opens as a table grouped by rule. Click a result to open the file at its line.\n[Open a sample log](command:sarifViewer.openSample)",
+            "media": {
+              "markdown": "walkthrough/open.md"
+            },
+            "completionEvents": [
+              "onCommand:sarifViewer.openSample"
+            ]
+          },
+          {
+            "id": "paths",
+            "title": "Results from CI",
+            "description": "Logs from GitHub Actions or other CI have paths like /home/runner/work/app/app/src/a.js. The viewer finds the matching file in your workspace and remembers the folder. If it cannot, click \"Locate file\" once.",
+            "media": {
+              "markdown": "walkthrough/paths.md"
+            }
+          },
+          {
+            "id": "compare",
+            "title": "Problems panel and compare",
+            "description": "\"Show in Problems\" puts the results in the Problems panel until you close the log. \"Compare…\" shows which results are new, unchanged or fixed since an older log.\n[Compare two logs](command:sarifViewer.compare)",
+            "media": {
+              "markdown": "walkthrough/compare.md"
+            },
+            "completionEvents": [
+              "onCommand:sarifViewer.compare"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "homepage": "https://github.com/theluckystrike/sarif-viewer-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/sarif-viewer-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/sarif-viewer-vscode"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
+  }
+}

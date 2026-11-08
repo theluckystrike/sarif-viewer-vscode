@@ -1,0 +1,525 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "CodeQL",
+     "organization": "GitHub",
+     "semanticVersion": "2.19.3",
+     "rules": [
+      {
+       "id": "js/sql-injection",
+       "name": "SqlInjection",
+       "shortDescription": {
+        "text": "Database query built from user-controlled sources"
+       },
+       "fullDescription": {
+        "text": "Building a database query from user-controlled sources is vulnerable to insertion of malicious code by the user."
+       },
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "helpUri": "https://codeql.github.com/codeql-query-help/javascript/js-sql-injection/",
+       "help": {
+        "text": "Use parameters.",
+        "markdown": "# Database query built from user-controlled sources\n\nIf a database query is built from user-provided data without sufficient sanitization, a user may be able to run malicious queries.\n\n## Recommendation\n\nUse **prepared statements** with `?` parameters:\n\n```js\nconn.all(\"SELECT * FROM users WHERE id = ?\", [id]);\n```\n\n## References\n\n- OWASP: [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection)\n- Common Weakness Enumeration: CWE-89.\n"
+       },
+       "properties": {
+        "tags": [
+         "security",
+         "external/cwe/cwe-089",
+         "external/cwe/cwe-090"
+        ],
+        "precision": "high",
+        "security-severity": "8.8",
+        "problem.severity": "error"
+       }
+      },
+      {
+       "id": "js/reflected-xss",
+       "name": "ReflectedXss",
+       "shortDescription": {
+        "text": "Reflected cross-site scripting"
+       },
+       "fullDescription": {
+        "text": "Writing user input directly to an HTTP response allows for a cross-site scripting vulnerability."
+       },
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "helpUri": "https://codeql.github.com/codeql-query-help/javascript/js-reflected-xss/",
+       "help": {
+        "text": "Escape output.",
+        "markdown": "# Reflected cross-site scripting\n\nDirectly writing user input to a webpage without escaping allows cross-site scripting.\n\n1. Escape the input.\n2. Or use a template engine that escapes by default.\n"
+       },
+       "properties": {
+        "tags": [
+         "security",
+         "external/cwe/cwe-079",
+         "external/cwe/cwe-116"
+        ],
+        "precision": "high",
+        "security-severity": "6.1"
+       }
+      },
+      {
+       "id": "js/path-injection",
+       "name": "TaintedPath",
+       "shortDescription": {
+        "text": "Uncontrolled data used in path expression"
+       },
+       "defaultConfiguration": {
+        "level": "error"
+       },
+       "helpUri": "https://codeql.github.com/codeql-query-help/javascript/js-path-injection/",
+       "properties": {
+        "tags": [
+         "security",
+         "external/cwe/cwe-022"
+        ],
+        "security-severity": "7.5"
+       }
+      },
+      {
+       "id": "js/hardcoded-credentials",
+       "name": "HardcodedCredentials",
+       "shortDescription": {
+        "text": "Hard-coded credentials"
+       },
+       "defaultConfiguration": {
+        "level": "warning"
+       },
+       "properties": {
+        "tags": [
+         "security",
+         "external/cwe/cwe-798"
+        ],
+        "security-severity": "9.8"
+       }
+      },
+      {
+       "id": "js/unused-local-variable",
+       "name": "UnusedVariable",
+       "shortDescription": {
+        "text": "Unused variable, import, function or class"
+       },
+       "defaultConfiguration": {
+        "level": "note"
+       },
+       "properties": {
+        "tags": [
+         "maintainability"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "invocations": [
+    {
+     "executionSuccessful": true,
+     "toolExecutionNotifications": []
+    }
+   ],
+   "results": [
+    {
+     "ruleId": "js/sql-injection",
+     "ruleIndex": 0,
+     "message": {
+      "text": "This query string depends on a [user-provided value](1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/db.js"
+        },
+        "region": {
+         "startLine": 6,
+         "startColumn": 15,
+         "endColumn": 59,
+         "snippet": {
+          "text": "const sql = \"SELECT * FROM users WHERE id = '\" + id + \"'\";"
+         }
+        }
+       }
+      }
+     ],
+     "relatedLocations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/server.js"
+        },
+        "region": {
+         "startLine": 8,
+         "startColumn": 14,
+         "endColumn": 26
+        }
+       },
+       "message": {
+        "text": "user-provided value"
+       },
+       "id": 1
+      }
+     ],
+     "partialFingerprints": {
+      "primaryLocationLineHash": "a1b2c3d4e5f60708:1"
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 8,
+              "startColumn": 14,
+              "endColumn": 26
+             }
+            },
+            "message": {
+             "text": "req.query.id"
+            }
+           },
+           "kinds": [
+            "source"
+           ]
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 8,
+              "startColumn": 9,
+              "endColumn": 26
+             }
+            },
+            "message": {
+             "text": "id"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 9,
+              "startColumn": 33,
+              "endColumn": 35
+             }
+            },
+            "message": {
+             "text": "id"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/db.js"
+             },
+             "region": {
+              "startLine": 5,
+              "startColumn": 19,
+              "endColumn": 21
+             }
+            },
+            "message": {
+             "text": "id"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/db.js"
+             },
+             "region": {
+              "startLine": 6,
+              "startColumn": 15,
+              "endColumn": 59
+             }
+            },
+            "message": {
+             "text": "\"SELECT ... \" + id + \"'\""
+            }
+           },
+           "kinds": [
+            "sink"
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "js/reflected-xss",
+     "ruleIndex": 1,
+     "message": {
+      "text": "Cross-site scripting vulnerability due to a [user-provided value](1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/server.js"
+        },
+        "region": {
+         "startLine": 10,
+         "startColumn": 12,
+         "endColumn": 49
+        }
+       }
+      }
+     ],
+     "relatedLocations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/server.js"
+        },
+        "region": {
+         "startLine": 10,
+         "startColumn": 32,
+         "endColumn": 46
+        }
+       },
+       "message": {
+        "text": "user-provided value"
+       },
+       "id": 1
+      }
+     ],
+     "partialFingerprints": {
+      "primaryLocationLineHash": "b2c3d4e5f6070819:1"
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 10,
+              "startColumn": 32,
+              "endColumn": 46
+             }
+            },
+            "message": {
+             "text": "req.query.name"
+            }
+           },
+           "kinds": [
+            "source"
+           ]
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 10,
+              "startColumn": 12,
+              "endColumn": 49
+             }
+            },
+            "message": {
+             "text": "'<h1>Hello ' + ..."
+            }
+           },
+           "kinds": [
+            "sink"
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "js/path-injection",
+     "ruleIndex": 2,
+     "message": {
+      "text": "This path depends on a [user-provided value](1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/server.js"
+        },
+        "region": {
+         "startLine": 15,
+         "startColumn": 16,
+         "endColumn": 39
+        }
+       }
+      }
+     ],
+     "relatedLocations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/server.js"
+        },
+        "region": {
+         "startLine": 14,
+         "startColumn": 16,
+         "endColumn": 30
+        }
+       },
+       "message": {
+        "text": "user-provided value"
+       },
+       "id": 1
+      }
+     ],
+     "partialFingerprints": {
+      "primaryLocationLineHash": "c3d4e5f607081920:1"
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 14,
+              "startColumn": 16,
+              "endColumn": 30
+             }
+            },
+            "message": {
+             "text": "req.query.name"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 14,
+              "startColumn": 9,
+              "endColumn": 30
+             }
+            },
+            "message": {
+             "text": "name"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "demo-app/src/server.js"
+             },
+             "region": {
+              "startLine": 15,
+              "startColumn": 16,
+              "endColumn": 39
+             }
+            },
+            "message": {
+             "text": "'/srv/files/' + name"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "js/hardcoded-credentials",
+     "ruleIndex": 3,
+     "message": {
+      "text": "The hard-coded value \"hunter2-not-a-real-secret\" is used as password."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/db.js"
+        },
+        "region": {
+         "startLine": 10,
+         "startColumn": 18,
+         "endColumn": 45
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "primaryLocationLineHash": "d4e5f60708192021:1"
+     }
+    },
+    {
+     "ruleId": "js/unused-local-variable",
+     "ruleIndex": 4,
+     "message": {
+      "text": "Unused variable b."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "demo-app/src/utils/sanitize.js"
+        },
+        "region": {
+         "startLine": 6,
+         "startColumn": 7,
+         "endColumn": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "primaryLocationLineHash": "e5f6070819202122:1"
+     }
+    }
+   ],
+   "columnKind": "utf16CodeUnits",
+   "properties": {
+    "semmle": {
+     "sourceLanguage": "javascript"
+    }
+   }
+  }
+ ]
+}

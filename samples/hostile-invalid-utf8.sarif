@@ -1,0 +1,1 @@
+{"version":"2.1.0","runs":[{"tool":{"driver":{"name":"Utf8Tool"}},"results":[{"ruleId":"U1","level":"warning","message":{"text":"bad bytes: ÿþÃ( ¡â(¡ end"},"locations":[{"physicalLocation":{"artifactLocation":{"uri":"demo-app/src/db.js"},"region":{"startLine":1}}}]}]}]}

@@ -1,0 +1,163 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Semgrep OSS",
+          "semanticVersion": "1.95.0",
+          "rules": [
+            {
+              "id": "javascript.express.security.audit.xss.direct-response-write",
+              "name": "direct-response-write",
+              "shortDescription": {
+                "text": "Semgrep Finding: direct-response-write"
+              },
+              "fullDescription": {
+                "text": "Detected directly writing to a Response object from user-defined input."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://semgrep.dev/r/javascript.express.security.audit.xss.direct-response-write",
+              "help": {
+                "markdown": "Detected directly writing to a Response object.\n\n<b>[Semgrep Rule](https://semgrep.dev/r/javascript.express.security.audit.xss.direct-response-write)</b>"
+              },
+              "properties": {
+                "tags": [
+                  "CWE-79: Improper Neutralization of Input During Web Page Generation",
+                  "OWASP-A03:2021 - Injection",
+                  "MEDIUM CONFIDENCE",
+                  "security"
+                ],
+                "precision": "very-high"
+              }
+            },
+            {
+              "id": "python.lang.security.audit.subprocess-shell-true",
+              "name": "subprocess-shell-true",
+              "shortDescription": {
+                "text": "subprocess call with shell=True"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://semgrep.dev/r/python.lang.security.audit.subprocess-shell-true",
+              "properties": {
+                "tags": [
+                  "CWE-78: OS Command Injection",
+                  "security"
+                ]
+              }
+            },
+            {
+              "id": "javascript.lang.security.detect-sql-concat",
+              "name": "detect-sql-concat",
+              "shortDescription": {
+                "text": "SQL built by string concatenation"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            }
+          ]
+        }
+      },
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "file:///home/runner/work/demo-app/demo-app/"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "results": [
+        {
+          "ruleId": "javascript.express.security.audit.xss.direct-response-write",
+          "level": "warning",
+          "message": {
+            "text": "Detected directly writing to a Response object from user-defined input."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/server.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 3,
+                  "endColumn": 72
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "matchBasedId": "sg-1111"
+          }
+        },
+        {
+          "ruleId": "python.lang.security.audit.subprocess-shell-true",
+          "level": "error",
+          "message": {
+            "text": "Found subprocess call with shell=True. Use a list of arguments instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "scripts/deploy.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 5,
+                  "endColumn": 64
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "matchBasedId": "sg-2222"
+          }
+        },
+        {
+          "ruleId": "javascript.lang.security.detect-sql-concat",
+          "level": "warning",
+          "message": {
+            "text": "SQL query built with string concatenation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 15,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "matchBasedId": "sg-3333"
+          },
+          "suppressions": [
+            {
+              "kind": "inSource",
+              "status": "accepted",
+              "justification": "nosemgrep: test fixture only"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

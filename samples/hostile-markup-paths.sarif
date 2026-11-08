@@ -1,0 +1,167 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Hostile<script>alert(5)</script>",
+          "rules": [
+            {
+              "id": "X1<script>alert(1)</script>",
+              "name": "<img src=x onerror=alert(2)>",
+              "shortDescription": {
+                "text": "<b onmouseover=\"alert(3)\">bold</b>"
+              },
+              "helpUri": "javascript:alert(document.cookie)",
+              "help": {
+                "text": "x",
+                "markdown": "# Help <script>window.PWNED_HELP=1</script>\n\n<img src=\"https://evil.example/pixel.gif\" onerror=\"window.PWNED_IMG=1\">\n\n[click me](javascript:window.PWNED_LINK=1) [data link](data:text/html,<script>alert(1)</script>) [vb](vbscript:msgbox) [web](https://evil.example/track?x=1)\n\n![tracker](https://evil.example/t.png)\n\n<iframe src=\"https://evil.example\"></iframe>\n\n```html\n<script>alert(\"in code\")</script>\n```\n"
+              },
+              "properties": {
+                "tags": [
+                  "<svg onload=alert(4)>"
+                ]
+              }
+            },
+            {
+              "id": "X2",
+              "shortDescription": {
+                "text": "Paths outside the workspace"
+              },
+              "helpUri": "file:///etc/passwd"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "X1<script>alert(1)</script>",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "markdown": "Message <script>window.PWNED_MSG=1</script> **bold** [js](javascript:window.PWNED_MSGLINK=1)",
+            "text": "Message <script>window.PWNED_MSG=1</script>"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/server.js"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "X2",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Points at /etc/passwd"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/etc/passwd"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "X2",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Points at a Windows system file"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:\\Windows\\System32\\drivers\\etc\\hosts"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "X2",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Points at a UNC share"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file://evil-server/share/payload.js"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "X2",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Points at a web URL"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://evil.example/src/app.js"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "X2",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Climbs out of the workspace"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "../../../../../../etc/hosts"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

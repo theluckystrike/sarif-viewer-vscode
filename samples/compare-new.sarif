@@ -1,0 +1,125 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "gitleaks",
+          "version": "8.30.1",
+          "rules": [
+            {
+              "id": "gitleaks:generic-api-key",
+              "shortDescription": {
+                "text": "Generic API key"
+              }
+            },
+            {
+              "id": "gitleaks:aws-access-token",
+              "shortDescription": {
+                "text": "AWS access key"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "gitleaks:generic-api-key",
+          "message": {
+            "text": "gitleaks:generic-api-key has detected a secret at line 11"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/db.js"
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 1,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "commitSha": "none",
+            "fingerprint": "fp-A"
+          }
+        },
+        {
+          "ruleId": "gitleaks:aws-access-token",
+          "message": {
+            "text": "gitleaks:aws-access-token has detected a secret at line 4"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/db.js"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 1,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "commitSha": "none",
+            "fingerprint": "fp-B"
+          }
+        },
+        {
+          "ruleId": "gitleaks:aws-access-token",
+          "message": {
+            "text": "gitleaks:aws-access-token has detected a secret at line 5"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/db.js"
+                },
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 1,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "commitSha": "none",
+            "fingerprint": "fp-E"
+          }
+        },
+        {
+          "ruleId": "gitleaks:generic-api-key",
+          "message": {
+            "text": "gitleaks:generic-api-key has detected a secret at line 7"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/scripts/deploy.py"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 1,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "commitSha": "none",
+            "fingerprint": "fp-F"
+          }
+        }
+      ]
+    }
+  ]
+}

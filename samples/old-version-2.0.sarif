@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "$schema": "http://json.schemastore.org/sarif-2.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "OldTool",
+        "driver": {
+          "name": "OldTool"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "OT1",
+          "level": "warning",
+          "message": {
+            "text": "An old-style result"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "demo-app/src/db.js"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
