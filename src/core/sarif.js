@@ -477,12 +477,25 @@ function detail(ix, docs, i) {
     flows,
     baseline: baselineName(baseOf(ix, i), !!ix.compare), baselineRaw: str(r.baselineState),
     suppressions: arr(r.suppressions).slice(0, 10).map(s => { const o = obj(s) || {}; return { kind: str(o.kind), status: str(o.status) || 'accepted', justification: clip(str(o.justification), 2000) }; }),
-    fingerprints: Object.assign({}, obj(r.partialFingerprints) || {}, obj(r.fingerprints) || {}),
+    fingerprints: fingerprintMap(r.partialFingerprints, r.fingerprints),
     rank: typeof r.rank === 'number' ? r.rank : null,
     occurrence: Number.isInteger(r.occurrenceCount) ? r.occurrenceCount : null,
     source: ix.sources[c.src[i]] ? ix.sources[c.src[i]].name : '',
     hostedViewerUri: '',
   };
+}
+
+/** Fingerprints as short strings: a hostile log can put deeply nested arrays there (VER11: that crashed the worker). */
+function fingerprintMap(partial, full) {
+  const out = {};
+  for (const src of [obj(partial), obj(full)]) {
+    if (!src) continue;
+    for (const [k, v] of Object.entries(src).slice(0, 50)) {
+      const s = typeof v === 'string' ? v : v === null || typeof v !== 'object' ? String(v) : Array.isArray(v) ? '[list]' : '[object]';
+      out[clip(String(k), 200)] = clip(s, 500);
+    }
+  }
+  return out;
 }
 
 /** Results as diagnostics input: [{ i, path, line, col, endLine, endCol, level, msg, rule, helpUri }] */

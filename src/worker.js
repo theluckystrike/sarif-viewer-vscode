@@ -122,5 +122,6 @@ parentPort.on('message', msg => {
   } catch (e) {
     out = { error: 'crash', message: String(e && e.message || e).slice(0, 500) };
   }
-  parentPort.postMessage(Object.assign({ id: msg.id, done: true }, out));
+  try { parentPort.postMessage(Object.assign({ id: msg.id, done: true }, out)); }
+  catch (e) { parentPort.postMessage({ id: msg.id, done: true, error: 'crash', message: 'The answer could not be sent: ' + String(e && e.message || e).slice(0, 300) }); }
 });

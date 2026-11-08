@@ -165,3 +165,15 @@ test('100,000 results: index and query stay fast', () => {
   assert.ok(t1 - t0 < 4000, `index ${t1 - t0} ms`);
   assert.ok(t2 - t1 < 2000, `query ${t2 - t1} ms`);
 });
+
+test('hostile: a 100,000-deep partialFingerprints value gives a short string, and the detail can be sent (VER11)', () => {
+  const deep = JSON.parse('{"b":' + '['.repeat(100000) + ']'.repeat(100000) + '}');
+  const doc = { version: '2.1.0', runs: [{ tool: { driver: { name: 't' } }, results: [{ ruleId: 'x', message: { text: 'm' }, fingerprints: { a: '1' }, partialFingerprints: Object.assign(deep, { n: 5, s: 'x'.repeat(2000) }) }] }] };
+  const ix = S.buildIndex([{ doc, name: 'deep.sarif' }]);
+  const d = S.detail(ix, [doc], 0);
+  assert.deepEqual(Object.keys(d.fingerprints).sort(), ['a', 'b', 'n', 's']);
+  assert.equal(d.fingerprints.b, '[list]');
+  assert.equal(d.fingerprints.n, '5');
+  assert.ok(d.fingerprints.s.length <= 500);
+  assert.doesNotThrow(() => structuredClone(d));
+});
